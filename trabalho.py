@@ -1,10 +1,13 @@
 import os 
 from struct import *
 from funcoes import *	
-arquivo = "dados"
+arquivo = "file"
 
 
 def main():
+	if not os.path.exists("fileInfo"):
+		addInfo(0,0,0)
+
 	opcao = ''
 	while opcao != 'e':
 		opcao = raw_input()
@@ -13,24 +16,24 @@ def main():
 			nome  = raw_input()
 			idade = input()
 			pessoa = Pessoa(chave,nome,idade)
-			addArquivo(arquivo,hashFirst(pessoa.chave),pessoa)
+			info = lerInfo()
+			addArquivo(arquivo,hashing(pessoa.chave,info[1]),pessoa)
 		elif opcao == 'c':
 				chave = input()
-				print vericarChave(arquivo,chave)
+				pessoa = buscaPessoa(arquivo,chave)
+				if(pessoa):
+					print "chave: "+str(pessoa.chave)
+					print str(pessoa.nome)
+					print str(pessoa.idade)
+				else:
+					print "chave nao encontrada: "+str(chave)
 		elif opcao == 'r':
 				chave = input()
-				print remove(arquivo,chave)
+				print remover(arquivo,chave)
 		elif opcao == 'p':
-				imprimiArquivo(arquivo)
-		elif opcao == 't':
-				chave = input()
-				tentarInsercao(arquivo,chave)
+				imprimiIndice(arquivo)
 		elif opcao == 'm':
-			print "Media"
-
-
-
-
+				print media(arquivo)
 
 if __name__== '__main__':
 	main()
